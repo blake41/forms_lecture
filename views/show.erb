@@ -1,1 +1,8 @@
-<%= params %>
+You created this author
+<%= @author.name %>
+<br>
+You created the following books for this author
+
+<% @books.each do |book| %>
+  <%= book.name %><br>
+<% end %>

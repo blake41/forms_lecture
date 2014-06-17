@@ -6,6 +6,14 @@ end
 
 module Name
   class App < Sinatra::Base
+    configure do
+      ActiveRecord::Base.establish_connection(
+        :adapter => 'sqlite3',
+        :database =>  'sinatra_application.sqlite3.db'
+      )
+    end
+    set :database, "sqlite3:///database.db"
+
     #routes
     get '/form' do
       erb :form
@@ -17,7 +25,8 @@ module Name
     end
 
     post '/results' do
-      person = Person.new(params[:name])
+      binding.pry
+      person = Person.new(params[:some_key])
       @people = [person]
       person.save
       erb :people
@@ -28,6 +37,12 @@ module Name
     end
 
     post '/somerandomURL' do
+      @author = Author.create(params[:author])
+      @books = []
+      params[:books].each do |book|
+        binding.pry
+        @books << @author.books.create(book)
+      end
       erb :show
     end
 
